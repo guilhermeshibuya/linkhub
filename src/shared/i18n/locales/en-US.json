@@ -1,0 +1,48 @@
+{
+  "auth": {
+    "welcome": "Welcome",
+    "welcomeBack": "Welcome Back",
+    "registerMessage": "Fill in the information below to create your account",
+    "signinMessage": "Enter your credentials below to access your account",
+    "name": "Name",
+    "namePlaceholder": "Full name",
+    "email": "Email",
+    "emailPlaceholder": "example@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "continue": "Continue",
+    "alreadyHaveAnAccount": "Already have an account?",
+    "dontHaveAnAccount": "Don't have an account?",
+    "register": "Register",
+    "signIn": "Sign In",
+    "forgotPassword": "Forgot your password?",
+    "banner": "All your links in one place",
+    "bannerDescription": "Perfect for sharing your social profiles, portfolio, and more.",
+    "separator": "Or",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "username": "Username",
+    "createUsernameTitle": "Choose your username",
+    "createUsernameDescription": "This will be the name used for your page link",
+    "back": "Back",
+    "loading": "Loading...",
+    "errors": {
+      "emailAlreadyInUse": "This email is already in use",
+      "usernameAlreadyInUse": "This username is already in use",
+      "unknown": "An unexpected error occurred, please try again"
+    },
+    "emailConfirmation": {
+      "title": "Email Confirmation",
+      "description": "We have sent an email to <bold>{{email}}</bold> with a link to confirm your email address. Please check your inbox and click the link to complete the registration."
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email",
+    "url": "Please enter a valid URL",
+    "minLength": "Minimum of {{min}} characters",
+    "maxLength": "Maximum of {{max}} characters",
+    "onlyLettersAndSpaces": "Only letters and spaces are allowed",
+    "onlyLettersNumbersUnderscores": "Only letters, numbers, and underscores are allowed"
+  }
+}

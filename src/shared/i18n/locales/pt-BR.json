@@ -1,0 +1,48 @@
+{
+  "auth": {
+    "welcome": "Bem-vindo",
+    "welcomeBack": "Bem-vindo de volta",
+    "registerMessage": "Preencha as informações abaixo para criar sua conta",
+    "signinMessage": "Digite suas credenciais abaixo para acessar sua conta",
+    "name": "Nome",
+    "namePlaceholder": "Nome completo",
+    "email": "Email",
+    "emailPlaceholder": "exemplo@email.com",
+    "password": "Senha",
+    "passwordPlaceholder": "Digite sua senha",
+    "continue": "Continuar",
+    "alreadyHaveAnAccount": "Já tem uma conta?",
+    "dontHaveAnAccount": "Não tem uma conta?",
+    "register": "Inscreva-se",
+    "signIn": "Entrar",
+    "forgotPassword": "Esqueceu a senha?",
+    "banner": "Todos os seus links em um só lugar",
+    "bannerDescription": "Perfeito para compartilhar seus perfis sociais, portfólio e muito mais.",
+    "separator": "Ou",
+    "continueWithGoogle": "Continue com o Google",
+    "continueWithApple": "Continue com a Apple",
+    "username": "Usuário",
+    "createUsernameTitle": "Escolha seu nome de usuário",
+    "createUsernameDescription": "Esse será o nome utilizado para o link da sua página",
+    "back": "Voltar",
+    "loading": "Carregando...",
+    "errors": {
+      "emailAlreadyInUse": "Este email já está em uso",
+      "usernameAlreadyInUse": "Este nome de usuário já está em uso",
+      "unknown": "Ocorreu um erro inesperado, tente novamente"
+    },
+    "emailConfirmation": {
+      "title": "Confirmação de Email",
+      "description": "Enviamos um email para <bold>{{email}}</bold> com um link para confirmar seu endereço de email. Por favor, verifique sua caixa de entrada e clique no link para concluir o registro."
+    }
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "email": "Por favor, insira um email válido",
+    "url": "Por favor, insira uma URL válida",
+    "minLength": "Mínimo de {{min}} caracteres",
+    "maxLength": "Máximo de {{max}} caracteres",
+    "onlyLettersAndSpaces": "Apenas letras e espaços são permitidos",
+    "onlyLettersNumbersUnderscores": "Apenas letras, números e underscores são permitidos"
+  }
+}
