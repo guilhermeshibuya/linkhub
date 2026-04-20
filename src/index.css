@@ -1,7 +1,7 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/inter';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -47,12 +47,13 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-low-contrast: var(--low-contrast);
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --background: oklch(0.9674 0.0013 286.37);
+  --primary: oklch(0.7057 0.19 12.98);
+  --primary-foreground: oklch(0.27 0.1049 12.3);
   --radius: 0.625rem;
   --border: oklch(0.922 0 0);
   --foreground: oklch(0.145 0 0);
@@ -68,7 +69,7 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: oklch(0.7057 0.19 12.98);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -82,12 +83,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --low-contrast: oklch(0.8711 0.0055 286.29);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --background: oklch(0.2103 0.0059 285.89);
+  --primary: oklch(0.7057 0.19 12.98);
+  --primary-foreground: oklch(0.27 0.1049 12.3);
   --border: oklch(1 0 0 / 10%);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -102,7 +104,7 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --ring: oklch(0.7057 0.19 12.98);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -116,6 +118,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --low-contrast: oklch(0.3707 0.0136 285.72);
 }
 
 @layer base {
@@ -127,5 +130,11 @@
   }
   html {
     @apply font-sans;
+  }
+  p {
+    @apply text-base text-zinc-700 dark:text-zinc-200;
+  }
+  h1 {
+    @apply text-2xl font-semibold text-zinc-900 dark:text-zinc-50;
   }
 }
