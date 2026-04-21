@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import { RegisterPage } from '../features/auth/pages/register'
 import { EmailConfirmation } from '@/features/auth/pages/email-confirmation'
 import { routes } from './routes-paths'
@@ -37,6 +37,7 @@ export function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<Navigate to={routes.signin} />} />
       </Routes>
     </BrowserRouter>
   )
