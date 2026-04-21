@@ -1,4 +1,5 @@
 {
+  "close": "Fechar",
   "auth": {
     "welcome": "Bem-vindo",
     "welcomeBack": "Bem-vindo de volta",
@@ -26,6 +27,7 @@
     "createUsernameDescription": "Esse será o nome utilizado para o link da sua página",
     "back": "Voltar",
     "loading": "Carregando...",
+    "signinFailed": "Falha ao entrar, por favor verifique suas credenciais e tente novamente",
     "errors": {
       "emailAlreadyInUse": "Este email já está em uso",
       "usernameAlreadyInUse": "Este nome de usuário já está em uso",
@@ -35,6 +37,21 @@
     "emailConfirmation": {
       "title": "Confirmação de Email",
       "description": "Enviamos um email para <bold>{{email}}</bold> com um link para confirmar seu endereço de email. Por favor, verifique sua caixa de entrada e clique no link para concluir o registro"
+    },
+    "resetPassword": {
+      "title": "Esqueceu a senha?",
+      "description": "Digite seu email abaixo e enviaremos um link para resetar a sua senha",
+      "sendButton": "Enviar email",
+      "sendError": "Não foi possível enviar o email de recuperação, por favor tente novamente",
+      "checkEmailTitle": "Verifique seu email",
+      "checkEmailDescription": "Enviamos um email para <bold>{{email}}</bold> com um link para resetar sua senha. Por favor, verifique sua caixa de entrada e clique no link para criar uma nova senha"
+    },
+    "changePassword": {
+      "title": "Alterar senha",
+      "description": "Digite sua nova senha abaixo",
+      "submitButton": "Atualizar senha",
+      "inputPlaceholder": "Digite sua nova senha",
+      "error": "Não foi possível atualizar a senha, por favor tente novamente"
     }
   },
   "validation": {
@@ -44,6 +61,7 @@
     "minLength": "Mínimo de {{min}} caracteres",
     "maxLength": "Máximo de {{max}} caracteres",
     "onlyLettersAndSpaces": "Apenas letras e espaços são permitidos",
-    "onlyLettersNumbersUnderscoresDot": "Apenas letras, números, pontos e underscores são permitidos"
+    "onlyLettersNumbersUnderscoresDot": "Apenas letras, números, pontos e underscores são permitidos",
+    "nonempty": "Este campo não pode estar vazio"
   }
 }

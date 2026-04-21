@@ -10,5 +10,6 @@ export const zodMessages = {
     onlyLettersAndSpaces: () => i18next.t('validation.onlyLettersAndSpaces'),
     onlyLettersNumbersUnderscoresDot: () =>
       i18next.t('validation.onlyLettersNumbersUnderscoresDot'),
+    nonempty: () => i18next.t('validation.nonempty'),
   },
 }

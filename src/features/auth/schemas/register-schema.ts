@@ -1,5 +1,7 @@
 import { zodMessages as messages } from '@/lib/zod/zod-messages'
 import { z } from 'zod'
+import { emailSchema } from './email-schema'
+import { passwordSchema } from './password-schema'
 
 export const registerSchema = z.object({
   name: z
@@ -10,11 +12,8 @@ export const registerSchema = z.object({
     })
     .min(1, { error: () => messages.string.min(1) })
     .max(150, { error: () => messages.string.max(150) }),
-  email: z.email({ error: () => messages.string.email() }).trim(),
-  password: z
-    .string()
-    .trim()
-    .min(6, { error: () => messages.string.min(6) }),
+  email: emailSchema.shape.email,
+  password: passwordSchema.shape.password,
 })
 
 export type RegisterSchema = z.infer<typeof registerSchema>

@@ -6,6 +6,8 @@ import { ProtectedRoute } from './protected-route'
 import { LinksPage } from '@/features/links/pages/links'
 import { SigninPage } from '@/features/auth/pages/signin'
 import { CompleteProfilePage } from '@/features/auth/pages/complete-profile'
+import { ResetPasswordPage } from '@/features/auth/pages/reset-password'
+import { ChangePasswordPage } from '@/features/auth/pages/change-password'
 
 export function AppRoutes() {
   return (
@@ -17,6 +19,8 @@ export function AppRoutes() {
           path={routes.emailConfirmation}
           element={<EmailConfirmation />}
         />
+        <Route path={routes.resetPassword} element={<ResetPasswordPage />} />
+        <Route path={routes.changePassword} element={<ChangePasswordPage />} />
         <Route
           path={routes.links}
           element={

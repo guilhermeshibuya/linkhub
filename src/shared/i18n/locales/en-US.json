@@ -1,4 +1,5 @@
 {
+  "close": "Close",
   "auth": {
     "welcome": "Welcome",
     "welcomeBack": "Welcome Back",
@@ -26,6 +27,7 @@
     "createUsernameDescription": "This will be the name used for your page link",
     "back": "Back",
     "loading": "Loading...",
+    "signinFailed": "Sign in failed, please check your credentials and try again",
     "errors": {
       "emailAlreadyInUse": "This email is already in use",
       "usernameAlreadyInUse": "This username is already in use",
@@ -35,6 +37,21 @@
     "emailConfirmation": {
       "title": "Email Confirmation",
       "description": "We have sent an email to <bold>{{email}}</bold> with a link to confirm your email address. Please check your inbox and click the link to complete the registration"
+    },
+    "resetPassword": {
+      "title": "Forgot your password?",
+      "description": "Enter your email below and we will send you a link to reset your password",
+      "sendButton": "Send Email",
+      "sendError": "Failed to send password recovery email, please try again",
+      "checkEmailTitle": "Check your email",
+      "checkEmailDescription": "We have sent an email to <bold>{{email}}</bold> with a link to reset your password. Please check your inbox and click the link to create a new password"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "description": "Enter your new password below",
+      "submitButton": "Update Password",
+      "inputPlaceholder": "Enter your new password",
+      "error": "Failed to update password, please try again"
     }
   },
   "validation": {
@@ -44,6 +61,7 @@
     "minLength": "Minimum of {{min}} characters",
     "maxLength": "Maximum of {{max}} characters",
     "onlyLettersAndSpaces": "Only letters and spaces are allowed",
-    "onlyLettersNumbersUnderscoresDot": "Only letters, numbers, dots, and underscores are allowed"
+    "onlyLettersNumbersUnderscoresDot": "Only letters, numbers, dots, and underscores are allowed",
+    "nonempty": "This field cannot be empty"
   }
 }

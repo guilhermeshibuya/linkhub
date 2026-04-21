@@ -117,43 +117,42 @@ export function CompleteProfilePage() {
         <h1>{t('auth.createUsernameTitle')}</h1>
         <p>{t('auth.createUsernameDescription')}</p>
       </div>
-      <main>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-          {globalError && <div className="text-red-500">{globalError}</div>}
-          <Field>
-            <FieldLabel id="username-label" htmlFor="username">
-              {t('auth.username')}
-            </FieldLabel>
-            <InputGroup>
-              <InputGroupAddon>
-                <InputGroupText className="text-zinc-600 dark:text-zinc-400">
-                  linkhub.com/
-                </InputGroupText>
-              </InputGroupAddon>
-              <InputGroupInput
-                id="username"
-                type="text"
-                aria-invalid={!!errors.username}
-                aria-labelledby="username-label"
-                {...usernameRegister}
-              />
-            </InputGroup>
-            {errors.username && (
-              <span className="text-red-500">{errors.username.message}</span>
-            )}
-          </Field>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <>
-                <Spinner />
-                {t('auth.loading')}
-              </>
-            ) : (
-              t('auth.continue')
-            )}
-          </Button>
-        </form>
-      </main>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+        {globalError && <div className="text-red-500">{globalError}</div>}
+        <Field>
+          <FieldLabel id="username-label" htmlFor="username">
+            {t('auth.username')}
+          </FieldLabel>
+          <InputGroup>
+            <InputGroupAddon>
+              <InputGroupText className="text-zinc-600 dark:text-zinc-400">
+                linkhub.com/
+              </InputGroupText>
+            </InputGroupAddon>
+            <InputGroupInput
+              id="username"
+              type="text"
+              aria-invalid={!!errors.username}
+              aria-labelledby="username-label"
+              {...usernameRegister}
+            />
+          </InputGroup>
+          {errors.username && (
+            <span className="text-red-500">{errors.username.message}</span>
+          )}
+        </Field>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <Spinner />
+              {t('auth.loading')}
+            </>
+          ) : (
+            t('auth.continue')
+          )}
+        </Button>
+      </form>
     </AuthLayout>
   )
 }
