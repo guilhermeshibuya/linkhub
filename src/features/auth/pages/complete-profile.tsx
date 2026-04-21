@@ -60,7 +60,7 @@ export function CompleteProfilePage() {
       reset({ username: data.username })
     }
     fetchDefaultUsername()
-  }, [user])
+  }, [user, reset])
 
   const debouncedCheck = useDebouncedCallback(async (username: string) => {
     if (!username || username.length < 3) return
