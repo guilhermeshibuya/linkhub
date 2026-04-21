@@ -13,9 +13,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@/components/ui/button'
 import { registerUser } from '../data-access/register-user'
 import { Spinner } from '@/components/ui/spinner'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { routes } from '@/routes/routes-paths'
+import { debounce } from '@/utils/debounce'
+import { checkUsernameAvailability } from '../data-access/check-username'
 
 interface UsernameFormProps {
   step1Data: RegisterSchema
@@ -30,6 +32,7 @@ export function UsernameForm({ step1Data }: UsernameFormProps) {
     register,
     handleSubmit,
     setError,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<UsernameSchema>({
     resolver: zodResolver(usernameSchema),
@@ -50,6 +53,22 @@ export function UsernameForm({ step1Data }: UsernameFormProps) {
     navigate(routes.emailConfirmation, { state: { email: step1Data.email } })
   }
 
+  const checkUsername = useRef(
+    debounce(async (username: string) => {
+      if (!username || username.length < 3) return
+
+      const isAvailable = await checkUsernameAvailability(username)
+
+      if (!isAvailable) {
+        setError('username', { message: t('auth.errors.usernameAlreadyInUse') })
+      } else {
+        clearErrors('username')
+      }
+    }, 500),
+  ).current
+
+  const { onChange, ...usernameRegister } = register('username')
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       {globalError && <div className="text-red-500">{globalError}</div>}
@@ -68,7 +87,11 @@ export function UsernameForm({ step1Data }: UsernameFormProps) {
             type="text"
             aria-invalid={!!errors.username}
             aria-labelledby="username-label"
-            {...register('username')}
+            onChange={(e) => {
+              onChange(e)
+              checkUsername(e.target.value)
+            }}
+            {...usernameRegister}
           />
         </InputGroup>
         {errors.username && (

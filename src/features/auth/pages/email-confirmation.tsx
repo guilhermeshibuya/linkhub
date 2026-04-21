@@ -1,6 +1,7 @@
 import { routes } from '@/routes/routes-paths'
 import { Trans, useTranslation } from 'react-i18next'
 import { Navigate, useLocation } from 'react-router'
+import { AuthLayout } from '../layout/auth-layout'
 
 export function EmailConfirmation() {
   const { t } = useTranslation()
@@ -13,13 +14,15 @@ export function EmailConfirmation() {
   }
 
   return (
-    <main>
-      <h1>{t('auth.emailConfirmation.title')}</h1>
-      <Trans
-        i18nKey="auth.emailConfirmation.description"
-        values={{ email: userEmail }}
-        components={{ bold: <strong /> }}
-      />
-    </main>
+    <AuthLayout>
+      <main>
+        <h1>{t('auth.emailConfirmation.title')}</h1>
+        <Trans
+          i18nKey="auth.emailConfirmation.description"
+          values={{ email: userEmail }}
+          components={{ bold: <strong /> }}
+        />
+      </main>
+    </AuthLayout>
   )
 }

@@ -8,7 +8,7 @@ export const zodMessages = {
     email: () => i18next.t('validation.email'),
     url: () => i18next.t('validation.url'),
     onlyLettersAndSpaces: () => i18next.t('validation.onlyLettersAndSpaces'),
-    onlyLettersNumbersUnderscores: () =>
-      i18next.t('validation.onlyLettersNumbersUnderscores'),
+    onlyLettersNumbersUnderscoresDot: () =>
+      i18next.t('validation.onlyLettersNumbersUnderscoresDot'),
   },
 }

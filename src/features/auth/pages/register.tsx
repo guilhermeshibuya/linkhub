@@ -6,15 +6,17 @@ import { useState } from 'react'
 import type { RegisterSchema } from '../schemas/register-schema'
 import { UsernameForm } from '../components/username-form'
 import { ChevronLeft } from 'lucide-react'
-import { AppleIcon } from '../components/apple-icon'
 import { GoogleIcon } from '../components/google-icon'
+import { handleGoogleLogin } from '../data-access/google-login'
+import { Link } from 'react-router'
+import { routes } from '@/routes/routes-paths'
 
 export function RegisterPage() {
   const { t } = useTranslation()
   const [step, setStep] = useState<1 | 2>(1)
   const [step1Data, setStep1Data] = useState<RegisterSchema | null>(null)
 
-  const handleStep1Complete = (data: RegisterSchema) => {
+  function handleStep1Complete(data: RegisterSchema) {
     setStep1Data(data)
     setStep(2)
   }
@@ -32,7 +34,10 @@ export function RegisterPage() {
             defaultValues={step1Data ?? undefined}
           />
           <p className="text-center text-zinc-600 dark:text-zinc-400">
-            {t('auth.alreadyHaveAnAccount')} <span>{t('auth.signIn')}</span>
+            {t('auth.alreadyHaveAnAccount')}{' '}
+            <Link to={routes.signin} className="text-primary hover:underline">
+              {t('auth.signIn')}
+            </Link>
           </p>
           <div className="flex items-center gap-4">
             <div className="h-px w-full bg-low-contrast" />
@@ -41,12 +46,9 @@ export function RegisterPage() {
             </p>
             <div className="h-px w-full bg-low-contrast" />
           </div>
-          <Button variant="outline">
+          <Button onClick={handleGoogleLogin} variant="outline">
             <GoogleIcon />
             {t('auth.continueWithGoogle')}
-          </Button>
-          <Button variant="outline">
-            <AppleIcon /> {t('auth.continueWithApple')}
           </Button>
         </>
       ) : (

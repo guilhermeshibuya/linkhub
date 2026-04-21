@@ -17,7 +17,7 @@
     "signIn": "Sign In",
     "forgotPassword": "Forgot your password?",
     "banner": "All your links in one place",
-    "bannerDescription": "Perfect for sharing your social profiles, portfolio, and more.",
+    "bannerDescription": "Perfect for sharing your social profiles, portfolio, and more",
     "separator": "Or",
     "continueWithGoogle": "Continue with Google",
     "continueWithApple": "Continue with Apple",
@@ -29,11 +29,12 @@
     "errors": {
       "emailAlreadyInUse": "This email is already in use",
       "usernameAlreadyInUse": "This username is already in use",
-      "unknown": "An unexpected error occurred, please try again"
+      "unknown": "An unexpected error occurred, please try again",
+      "failedToUpdateUsername": "Failed to update username, please try again"
     },
     "emailConfirmation": {
       "title": "Email Confirmation",
-      "description": "We have sent an email to <bold>{{email}}</bold> with a link to confirm your email address. Please check your inbox and click the link to complete the registration."
+      "description": "We have sent an email to <bold>{{email}}</bold> with a link to confirm your email address. Please check your inbox and click the link to complete the registration"
     }
   },
   "validation": {
@@ -43,6 +44,6 @@
     "minLength": "Minimum of {{min}} characters",
     "maxLength": "Maximum of {{max}} characters",
     "onlyLettersAndSpaces": "Only letters and spaces are allowed",
-    "onlyLettersNumbersUnderscores": "Only letters, numbers, and underscores are allowed"
+    "onlyLettersNumbersUnderscoresDot": "Only letters, numbers, dots, and underscores are allowed"
   }
 }
