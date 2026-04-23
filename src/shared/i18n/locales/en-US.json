@@ -1,5 +1,7 @@
 {
   "close": "Close",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
   "auth": {
     "welcome": "Welcome",
     "welcomeBack": "Welcome Back",
@@ -54,6 +56,35 @@
       "error": "Failed to update password, please try again"
     }
   },
+  "dashboard": {
+    "links": {
+      "sectionTitle": "My Links",
+      "sectionDescription": "Manage how your links appear to the public",
+      "addNewLink": "Add New Link",
+      "addNewLinkDescription": "Add a new link to appear on your public page",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Ex: My Instagram",
+      "linkLabel": "Link",
+      "linkPlaceholder": "Ex: https://www.instagram.com/myprofile",
+      "isVisibleLabel": "Visible?",
+      "isVisibleDescription": "Disable to hide this link from your public page",
+      "add": "Add",
+      "cancel": "Cancel",
+      "addLinkError": "Failed to add link, please try again",
+      "noLinksTitle": "Your page is still empty 😅",
+      "noLinksDescription": "How about adding your first link to start sharing your social media, portfolio, and more?",
+      "updateLinkError": "Failed to update link, please try again",
+      "editLink": "Edit link",
+      "editLinkDescription": "Update the link information below",
+      "saveChanges": "Save changes",
+      "updateLinkSuccess": "Link updated successfully",
+      "addLinkSuccess": "Link added successfully",
+      "deleteLink": "Delete Link?",
+      "deleteLinkDescription": "Are you sure you want to delete the link <bold>{{title}}</bold>? This action cannot be undone.",
+      "deleteLinkSuccess": "Link deleted successfully",
+      "deleteLinkError": "Failed to delete link, please try again"
+    }
+  },
   "validation": {
     "required": "This field is required",
     "email": "Please enter a valid email",
@@ -62,6 +93,7 @@
     "maxLength": "Maximum of {{max}} characters",
     "onlyLettersAndSpaces": "Only letters and spaces are allowed",
     "onlyLettersNumbersUnderscoresDot": "Only letters, numbers, dots, and underscores are allowed",
-    "nonempty": "This field cannot be empty"
+    "nonempty": "This field cannot be empty",
+    "uuid": "The field must be a valid UUID"
   }
 }

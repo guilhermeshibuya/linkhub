@@ -3,11 +3,11 @@ import { RegisterPage } from '../features/auth/pages/register'
 import { EmailConfirmation } from '@/features/auth/pages/email-confirmation'
 import { routes } from './routes-paths'
 import { ProtectedRoute } from './protected-route'
-import { LinksPage } from '@/features/links/pages/links'
 import { SigninPage } from '@/features/auth/pages/signin'
 import { CompleteProfilePage } from '@/features/auth/pages/complete-profile'
 import { ResetPasswordPage } from '@/features/auth/pages/reset-password'
 import { ChangePasswordPage } from '@/features/auth/pages/change-password'
+import { MyLinksPage } from '@/features/links/pages/my-links'
 
 export function AppRoutes() {
   return (
@@ -25,7 +25,7 @@ export function AppRoutes() {
           path={routes.links}
           element={
             <ProtectedRoute>
-              <LinksPage />
+              <MyLinksPage />
             </ProtectedRoute>
           }
         />

@@ -1,5 +1,7 @@
 {
   "close": "Fechar",
+  "confirm": "Confirmar",
+  "cancel": "Cancelar",
   "auth": {
     "welcome": "Bem-vindo",
     "welcomeBack": "Bem-vindo de volta",
@@ -54,6 +56,35 @@
       "error": "Não foi possível atualizar a senha, por favor tente novamente"
     }
   },
+  "dashboard": {
+    "links": {
+      "sectionTitle": "Meus Links",
+      "sectionDescription": "Gerencie como seus links aparecem para o público",
+      "addNewLink": "Adicionar novo link",
+      "addNewLinkDescription": "Adicione um novo link para aparecer na sua página pública",
+      "titleLabel": "Título",
+      "titlePlaceholder": "Ex: Meu Instagram",
+      "linkLabel": "Link",
+      "linkPlaceholder": "Ex: https://www.instagram.com/seuusuario",
+      "isVisibleLabel": "Visível?",
+      "isVisibleDescription": "Desative para ocultar este link da sua página pública",
+      "add": "Adicionar",
+      "cancel": "Cancelar",
+      "addLinkError": "Não foi possível adicionar o link, por favor tente novamente",
+      "noLinksTitle": "Sua página ainda está vazia 😅",
+      "noLinksDescription": "Que tal adicionar seu primeiro link para começar a compartilhar suas redes sociais, portfólio e muito mais?",
+      "updateLinkError": "Não foi possível atualizar o link, por favor tente novamente",
+      "editLink": "Editar link",
+      "editLinkDescription": "Atualize as informações do link abaixo",
+      "saveChanges": "Salvar alterações",
+      "updateLinkSuccess": "Link atualizado com sucesso",
+      "addLinkSuccess": "Link adicionado com sucesso",
+      "deleteLink": "Excluir link?",
+      "deleteLinkDescription": "Tem certeza que deseja excluir o link <bold>{{title}}</bold>? Esta ação não pode ser desfeita",
+      "deleteLinkSuccess": "Link excluído com sucesso",
+      "deleteLinkError": "Não foi possível excluir o link, por favor tente novamente"
+    }
+  },
   "validation": {
     "required": "Este campo é obrigatório",
     "email": "Por favor, insira um email válido",
@@ -62,6 +93,7 @@
     "maxLength": "Máximo de {{max}} caracteres",
     "onlyLettersAndSpaces": "Apenas letras e espaços são permitidos",
     "onlyLettersNumbersUnderscoresDot": "Apenas letras, números, pontos e underscores são permitidos",
-    "nonempty": "Este campo não pode estar vazio"
+    "nonempty": "Este campo não pode estar vazio",
+    "uuid": "O campo deve ser um UUID válido"
   }
 }

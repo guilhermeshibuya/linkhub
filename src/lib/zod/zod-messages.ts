@@ -11,5 +11,6 @@ export const zodMessages = {
     onlyLettersNumbersUnderscoresDot: () =>
       i18next.t('validation.onlyLettersNumbersUnderscoresDot'),
     nonempty: () => i18next.t('validation.nonempty'),
+    uuid: () => i18next.t('validation.uuid'),
   },
 }
