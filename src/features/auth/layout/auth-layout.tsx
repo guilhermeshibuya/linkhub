@@ -11,7 +11,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
       </main>
       <aside className="hidden lg:block bg-[url(/linkhub-bg.jpg)] bg-cover bg-center bg-no-repeat">
         <div className="flex flex-col gap-3 justify-end h-full lg:py-32 lg:px-16">
-          <h1 className="text-5xl font-bold text-primary max-w-[10ch]">
+          <h1 className="text-5xl font-bold font-display text-primary max-w-[10ch]">
             {t('auth.banner')}
           </h1>
           <p className="text-xl text-zinc-100">{t('auth.bannerDescription')}</p>
