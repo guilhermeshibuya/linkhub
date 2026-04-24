@@ -57,6 +57,11 @@
     }
   },
   "dashboard": {
+    "header": {
+      "links": "Links",
+      "design": "Design",
+      "settings": "Configurações"
+    },
     "links": {
       "sectionTitle": "Meus Links",
       "sectionDescription": "Gerencie como seus links aparecem para o público",
