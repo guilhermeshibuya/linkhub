@@ -5,6 +5,9 @@ export const routes = {
   emailConfirmation: '/auth/email-confirmation',
   resetPassword: '/auth/reset-password',
   changePassword: '/auth/change-password',
-  links: '/admin/links',
+  admin: '/admin',
+  links: 'links',
+  design: 'design',
+  settings: 'settings',
   publicPage: '/:username',
 }

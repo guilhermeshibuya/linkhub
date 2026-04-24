@@ -9,6 +9,7 @@ import { ResetPasswordPage } from '@/features/auth/pages/reset-password'
 import { ChangePasswordPage } from '@/features/auth/pages/change-password'
 import { MyLinksPage } from '@/features/links/pages/my-links'
 import { PublicPage } from '@/features/pages/pages/public-page'
+import { DashboardLayout } from '@/layouts/dashboard-layout'
 
 export function AppRoutes() {
   return (
@@ -26,13 +27,18 @@ export function AppRoutes() {
         <Route path={routes.publicPage} element={<PublicPage />} />
 
         <Route
-          path={routes.links}
+          path={routes.admin}
           element={
             <ProtectedRoute>
-              <MyLinksPage />
+              <DashboardLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path={routes.links} element={<MyLinksPage />} />
+          <Route path={routes.design} element={<div>Design Page</div>} />
+          <Route path={routes.settings} element={<div>Settings Page</div>} />
+        </Route>
+
         <Route
           path={routes.completeProfile}
           element={
