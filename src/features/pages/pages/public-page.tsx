@@ -9,10 +9,12 @@ import { ErrorPage } from '@/pages/error'
 import { Spinner } from '@/components/ui/spinner'
 import { themes } from '../types/theme'
 import { resolveBackground } from '../utils/resolve-background'
+import { useTranslation } from 'react-i18next'
 
 type Status = 'loading' | 'error' | 'success' | 'not-found'
 
 export function PublicPage() {
+  const { t } = useTranslation()
   const { username } = useParams()
   const [publicPage, setPublicPage] = useState<PublicPage | null>(null)
   const [status, setStatus] = useState<Status>('loading')
@@ -35,6 +37,18 @@ export function PublicPage() {
     }
     fetchPublicPage()
   }, [username])
+
+  useEffect(() => {
+    if (status === 'success' && publicPage?.title) {
+      document.title = `${publicPage.title} | LinkHub`
+    } else if (status === 'loading') {
+      document.title = t('auth.loading')
+    }
+
+    return () => {
+      document.title = 'LinkHub'
+    }
+  }, [publicPage, status, t])
 
   const handleLinkClick = async (linkId: string) => {
     try {
