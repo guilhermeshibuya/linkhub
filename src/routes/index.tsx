@@ -8,6 +8,7 @@ import { CompleteProfilePage } from '@/features/auth/pages/complete-profile'
 import { ResetPasswordPage } from '@/features/auth/pages/reset-password'
 import { ChangePasswordPage } from '@/features/auth/pages/change-password'
 import { MyLinksPage } from '@/features/links/pages/my-links'
+import { PublicPage } from '@/features/pages/pages/public-page'
 
 export function AppRoutes() {
   return (
@@ -21,6 +22,9 @@ export function AppRoutes() {
         />
         <Route path={routes.resetPassword} element={<ResetPasswordPage />} />
         <Route path={routes.changePassword} element={<ChangePasswordPage />} />
+
+        <Route path={routes.publicPage} element={<PublicPage />} />
+
         <Route
           path={routes.links}
           element={
@@ -37,6 +41,7 @@ export function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
         <Route path="*" element={<Navigate to={routes.signin} />} />
       </Routes>
     </BrowserRouter>
