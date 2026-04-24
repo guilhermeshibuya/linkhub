@@ -62,8 +62,22 @@ export function PublicPage() {
   } as React.CSSProperties
 
   return (
-    <div className="h-dvh" style={{ ...bgStyle, ...cssVars }}>
-      <main className="min-h-dvh bg-transparent rounded-4xl px-4 py-8 mx-auto max-w-md md:bg-zinc-900">
+    <div
+      style={{
+        ...cssVars,
+      }}
+    >
+      <div
+        className="fixed inset-0"
+        style={{
+          ...bgStyle,
+          filter: 'opacity(0.7)',
+        }}
+      />
+      <main
+        className="my-8 relative min-h-dvh rounded-4xl px-4 py-8 mx-auto max-w-md shadow-[0_0_30px_15px_rgba(0,0,0,0.15)]"
+        style={{ ...bgStyle }}
+      >
         <div className="flex flex-col items-center gap-3 mb-8">
           <img
             src={publicPage?.profilePictureUrl}
