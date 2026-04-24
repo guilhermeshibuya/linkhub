@@ -6,4 +6,5 @@ export const routes = {
   resetPassword: '/auth/reset-password',
   changePassword: '/auth/change-password',
   links: '/admin/links',
+  publicPage: '/:username',
 }

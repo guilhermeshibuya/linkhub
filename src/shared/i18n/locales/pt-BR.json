@@ -95,5 +95,13 @@
     "onlyLettersNumbersUnderscoresDot": "Apenas letras, números, pontos e underscores são permitidos",
     "nonempty": "Este campo não pode estar vazio",
     "uuid": "O campo deve ser um UUID válido"
+  },
+  "publicPage": {},
+  "notFoundPage": {
+    "description": "A página que você está procurando não existe ou foi movida. Verifique o link e tente novamente."
+  },
+  "errorPage": {
+    "title": "Oooops!",
+    "description": "Algo deu errado. Por favor, tente novamente mais tarde."
   }
 }
