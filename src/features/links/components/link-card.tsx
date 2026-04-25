@@ -53,7 +53,7 @@ export function LinkCard({
         <GripVertical className="text-zinc-500 size-6" />
       </Button>
       <div className="flex-1 space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-3 lg:gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-3">
               <h2 className="text-xl font-semibold">{title}</h2>
@@ -61,7 +61,7 @@ export function LinkCard({
                 <Pencil className="text-zinc-500 size-5" />
               </Button>
             </div>
-            <p className="font-medium text-zinc-600 dark:text-zinc-400">
+            <p className="font-medium text-zinc-600 dark:text-zinc-400 text-wrap break-all">
               {url}
             </p>
           </div>
