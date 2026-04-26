@@ -6,7 +6,7 @@ import {
   InputGroupInput,
 } from '@/components/ui/input-group'
 import { Lock, Mail } from 'lucide-react'
-import { signinSchema, type SigninSchema } from '../schemas/signin-schena'
+import { signinSchema, type SigninSchema } from '../schemas/signin-schema'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

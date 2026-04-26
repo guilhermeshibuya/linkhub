@@ -5,7 +5,7 @@ export const handleGoogleLogin = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${window.location.origin}${routes.completeProfile}`,
+      redirectTo: `${window.location.origin}${routes.authCallback}`,
     },
   })
   if (error) console.error('Error during Google login:', error.message)

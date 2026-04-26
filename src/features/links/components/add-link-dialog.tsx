@@ -128,7 +128,7 @@ export function AddLinkDialog({
               const error = errors[name]
 
               return (
-                <Field>
+                <Field key={name}>
                   <FieldLabel id={labelId} htmlFor={name}>
                     {t(labelKey)}
                   </FieldLabel>

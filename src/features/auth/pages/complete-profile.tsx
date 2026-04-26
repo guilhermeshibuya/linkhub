@@ -22,12 +22,13 @@ import { routes } from '@/routes/routes-paths'
 import { updateUsername } from '../data-access/update-username'
 
 export function CompleteProfilePage() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const { t } = useTranslation()
   const navigate = useNavigate()
 
   const [defaultUsername, setDefaultUsername] = useState<string | null>(null)
   const [isDefaultUsername, setIsDefaultUsername] = useState(false)
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true)
   const [globalError, setGlobalError] = useState<string | null>(null)
 
   const {
@@ -43,14 +44,15 @@ export function CompleteProfilePage() {
       username: '',
     },
   })
+  const userId = user?.id
 
   useEffect(() => {
     async function fetchDefaultUsername() {
-      if (!user) return
+      if (!userId) return
       const { data } = await supabase
         .from('profiles')
         .select('username, is_default_username')
-        .eq('id', user.id)
+        .eq('id', userId)
         .single()
 
       if (!data) return
@@ -58,9 +60,10 @@ export function CompleteProfilePage() {
       setIsDefaultUsername(data.is_default_username)
       setDefaultUsername(data.username)
       reset({ username: data.username })
+      setIsLoadingProfile(false)
     }
     fetchDefaultUsername()
-  }, [user, reset])
+  }, [userId, reset])
 
   const debouncedCheck = useDebouncedCallback(async (username: string) => {
     if (!username || username.length < 3) return
@@ -97,7 +100,7 @@ export function CompleteProfilePage() {
     if (error) {
       setGlobalError(t('auth.errors.failedToUpdateUsername'))
     } else {
-      navigate(routes.links)
+      navigate(`${routes.admin}/${routes.links}`)
     }
   }
 
@@ -105,11 +108,14 @@ export function CompleteProfilePage() {
     onChange: (e) => debouncedCheck(e.target.value),
   })
 
+  if (loading || isLoadingProfile) return <Spinner />
+
   if (!user) {
     return null
   }
 
-  if (!isDefaultUsername) return <Navigate to={routes.links} replace />
+  if (!isDefaultUsername)
+    return <Navigate to={`${routes.admin}/${routes.links}`} replace />
 
   return (
     <AuthLayout>
@@ -142,7 +148,7 @@ export function CompleteProfilePage() {
             <span className="text-red-500">{errors.username.message}</span>
           )}
         </Field>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || !!errors.username}>
           {isSubmitting ? (
             <>
               <Spinner />

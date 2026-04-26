@@ -11,6 +11,7 @@ import { MyLinksPage } from '@/features/links/pages/my-links'
 import { PublicPage } from '@/features/pages/pages/public-page'
 import { DashboardLayout } from '@/layouts/dashboard-layout'
 import { DesignPage } from '@/features/pages/pages/design'
+import { AuthCallbackPage } from '@/features/auth/pages/auth-callback'
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,15 @@ export function AppRoutes() {
       <Routes>
         <Route path={routes.register} element={<RegisterPage />} />
         <Route path={routes.signin} element={<SigninPage />} />
+        <Route path={routes.authCallback} element={<AuthCallbackPage />} />
+        <Route
+          path={routes.completeProfile}
+          element={
+            <ProtectedRoute>
+              <CompleteProfilePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path={routes.emailConfirmation}
           element={<EmailConfirmation />}
@@ -39,15 +49,6 @@ export function AppRoutes() {
           <Route path={routes.design} element={<DesignPage />} />
           <Route path={routes.settings} element={<div>Settings Page</div>} />
         </Route>
-
-        <Route
-          path={routes.completeProfile}
-          element={
-            <ProtectedRoute>
-              <CompleteProfilePage />
-            </ProtectedRoute>
-          }
-        />
 
         <Route path="*" element={<Navigate to={routes.signin} />} />
       </Routes>
