@@ -1,4 +1,5 @@
 export const routes = {
+  authCallback: '/auth/callback',
   register: '/auth/register',
   signin: '/auth/signin',
   completeProfile: '/auth/complete-profile',
