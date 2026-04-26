@@ -117,12 +117,12 @@ export function HeaderTab() {
   }, [formValues, trigger, setHeaderData])
 
   return (
-    <section>
+    <section className="flex flex-col gap-8">
       <Field>
         <FieldLabel>
           {t('dashboard.design.tabs.header.profilePicture')}
         </FieldLabel>
-        <div>
+        <div className="flex items-center gap-8">
           <img
             referrerPolicy="no-referrer"
             className="rounded-full size-20"
@@ -153,6 +153,8 @@ export function HeaderTab() {
             />
           )}
         </div>
+      </Field>
+      <Field>
         <FieldLabel id="title-label" htmlFor="title">
           {t('dashboard.design.tabs.header.titleInputLabel')}
         </FieldLabel>
