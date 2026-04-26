@@ -10,6 +10,7 @@ import { ChangePasswordPage } from '@/features/auth/pages/change-password'
 import { MyLinksPage } from '@/features/links/pages/my-links'
 import { PublicPage } from '@/features/pages/pages/public-page'
 import { DashboardLayout } from '@/layouts/dashboard-layout'
+import { DesignPage } from '@/features/pages/pages/design'
 
 export function AppRoutes() {
   return (
@@ -35,7 +36,7 @@ export function AppRoutes() {
           }
         >
           <Route path={routes.links} element={<MyLinksPage />} />
-          <Route path={routes.design} element={<div>Design Page</div>} />
+          <Route path={routes.design} element={<DesignPage />} />
           <Route path={routes.settings} element={<div>Settings Page</div>} />
         </Route>
 
