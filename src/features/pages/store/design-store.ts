@@ -7,7 +7,9 @@ interface DesignState {
   selectedTheme: Theme | null
   headerData: { title: string; description?: string } | null
 
-  setPageInfo: (data: PageInfo) => void
+  setPageInfo: (
+    data: PageInfo | ((prev: PageInfo | null) => PageInfo | null),
+  ) => void
   setSelectedTheme: (theme: Theme) => void
   setHeaderData: (data: { title: string; description?: string }) => void
   setProfilePictureUrl: (url: string) => void
@@ -19,7 +21,10 @@ export const useDesignStore = create<DesignState>((set) => ({
   headerData: null,
   profilePictureUrl: null,
 
-  setPageInfo: (data) => set({ pageInfo: data }),
+  setPageInfo: (data) =>
+    set((state) => ({
+      pageInfo: typeof data === 'function' ? data(state.pageInfo) : data,
+    })),
   setSelectedTheme: (theme) => set({ selectedTheme: theme }),
   setHeaderData: (data) => set({ headerData: data }),
   setProfilePictureUrl: (url) =>

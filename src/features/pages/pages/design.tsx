@@ -12,6 +12,7 @@ import { udpateHeader } from '../data-access/update-header'
 import { getPageInfo } from '../data-access/get-page-info'
 import { toast } from 'sonner'
 import { useScrollPosition } from '@/hooks/use-scroll-position'
+import type { PageInfo } from '../types/public-page'
 
 export function DesignPage() {
   const { pageId } = useAuth()
@@ -53,6 +54,7 @@ export function DesignPage() {
       setIsSaving(true)
       if (selectedTheme) {
         await updateTheme(pageId, selectedTheme)
+        setPageInfo((prev) => prev && { ...prev, themeName: selectedTheme })
       }
       if (headerData) {
         await udpateHeader(pageId, headerData)
