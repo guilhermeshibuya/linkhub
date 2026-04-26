@@ -12,20 +12,14 @@ import { useEffect, useRef, useState } from 'react'
 import { useDesignStore } from '../store/design-store'
 import { DESCRIPTION_MAX_LENGTH } from '../constants/description'
 import { Button } from '@/components/ui/button'
-import Cropper, { type Area } from 'react-easy-crop'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { type Area } from 'react-easy-crop'
 import { getCroppedImage } from '@/utils/get-cropped-img'
 import { toast } from 'sonner'
 import { uploadProfilePicture } from '@/features/profiles/data-access/upload-profile-picture'
 import { useAuth } from '@/hooks/use-auth'
 import { getProfilePictureUrl } from '@/features/profiles/data-access/get-profile-picture-url'
 import { updateProfilePicture } from '@/features/profiles/data-access/update-profile-picture'
+import { CropProfilePictureDialog } from '@/features/profiles/components/crop-profile-picture-dialog'
 
 export function HeaderTab() {
   const { t } = useTranslation()
@@ -60,6 +54,9 @@ export function HeaderTab() {
   const descriptionLength = descriptionValue.length
 
   const handleProfilePictureClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
     fileInputRef.current?.click()
   }
 
@@ -68,13 +65,18 @@ export function HeaderTab() {
   ) => {
     const file = event.target.files && event.target.files[0]
     if (!file) return
+
     if (file.size > 2 * 1024 * 1024) {
       toast.error(t('dashboard.design.tabs.header.pictureSizeError'))
       return
     }
 
-    const image = URL.createObjectURL(file)
-    setImage(image)
+    if (image) {
+      URL.revokeObjectURL(image)
+    }
+
+    const imageUrl = URL.createObjectURL(file)
+    setImage(imageUrl)
     setIsCropping(true)
   }
 
@@ -115,12 +117,12 @@ export function HeaderTab() {
   }, [formValues, trigger, setHeaderData])
 
   return (
-    <section>
+    <section className="flex flex-col gap-8">
       <Field>
         <FieldLabel>
           {t('dashboard.design.tabs.header.profilePicture')}
         </FieldLabel>
-        <div>
+        <div className="flex items-center gap-8">
           <img
             referrerPolicy="no-referrer"
             className="rounded-full size-20"
@@ -137,40 +139,22 @@ export function HeaderTab() {
           <Button variant="outline" onClick={handleProfilePictureClick}>
             {t('change')}
           </Button>
-          {isCropping && image && (
-            <Dialog open={isCropping} onOpenChange={setIsCropping}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>
-                    {t('dashboard.design.tabs.header.cropImage')}
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="relative w-full h-80 bg-black overflow-hidden rounded">
-                  <Cropper
-                    image={image}
-                    crop={crop}
-                    zoom={zoom}
-                    cropShape="round"
-                    aspect={1}
-                    showGrid={false}
-                    onCropChange={setCrop}
-                    onZoomChange={setZoom}
-                    onCropComplete={onCropComplete}
-                  />
-                </div>
-                <DialogFooter className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsCropping(false)}
-                  >
-                    {t('cancel')}
-                  </Button>
-                  <Button onClick={handleSaveCroppedImage}>{t('save')}</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+          {image && (
+            <CropProfilePictureDialog
+              isCropping={isCropping}
+              setIsCropping={setIsCropping}
+              image={image}
+              crop={crop}
+              setCrop={setCrop}
+              zoom={zoom}
+              setZoom={setZoom}
+              onCropComplete={onCropComplete}
+              handleSaveCroppedImage={handleSaveCroppedImage}
+            />
           )}
         </div>
+      </Field>
+      <Field>
         <FieldLabel id="title-label" htmlFor="title">
           {t('dashboard.design.tabs.header.titleInputLabel')}
         </FieldLabel>
