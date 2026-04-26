@@ -11,12 +11,26 @@ import { HeaderTab } from '../components/header-tab'
 import { udpateHeader } from '../data-access/update-header'
 import { getPageInfo } from '../data-access/get-page-info'
 import { toast } from 'sonner'
+import { useScrollPosition } from '@/hooks/use-scroll-position'
 
 export function DesignPage() {
   const { pageId } = useAuth()
   const { t } = useTranslation()
-  const { setPageInfo, selectedTheme, headerData } = useDesignStore()
+  const { pageInfo, setPageInfo, selectedTheme, headerData } = useDesignStore()
   const [isSaving, setIsSaving] = useState(false)
+  const scrollPosition = useScrollPosition(50)
+
+  const hasUnsavedChanges = () => {
+    if (!pageInfo) return false
+
+    if (selectedTheme && pageInfo.themeName !== selectedTheme) return true
+    if (headerData) {
+      const { title, description } = pageInfo
+      if (headerData.title !== title) return true
+      if (headerData.description !== description) return true
+    }
+    return false
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +73,10 @@ export function DesignPage() {
           <h1>{t('dashboard.design.sectionTitle')}</h1>
           <p>{t('dashboard.design.sectionDescription')}</p>
         </div>
-        <Button onClick={handleSave} disabled={isSaving}>
+        <Button
+          onClick={handleSave}
+          disabled={isSaving || !hasUnsavedChanges()}
+        >
           {isSaving ? (
             <>
               <Spinner />
@@ -93,7 +110,32 @@ export function DesignPage() {
           <HeaderTab />
         </TabsContent>
       </Tabs>
-      <div className="flex flex-col px-4 pt-4 pb-8 gap-8 lg:px-8 lg:pt-8 lg:pb-16 lg:border-r"></div>
+      <div
+        className={`
+          fixed bottom-4 right-4 z-50 lg:hidden
+          transition-all duration-300 ease-in-out
+          ${
+            scrollPosition > 400 && hasUnsavedChanges()
+              ? 'translate-y-0 opacity-100 pointer-events-auto'
+              : 'translate-y-16 opacity-0 pointer-events-none'
+          }  
+        `}
+      >
+        <Button
+          onClick={handleSave}
+          disabled={isSaving || !hasUnsavedChanges()}
+          className="shadow-lg"
+        >
+          {isSaving ? (
+            <>
+              <Spinner />
+              {t('saving')}
+            </>
+          ) : (
+            t('save')
+          )}
+        </Button>
+      </div>
     </main>
   )
 }
