@@ -53,6 +53,7 @@ export function DesignPage() {
       setIsSaving(true)
       if (selectedTheme) {
         await updateTheme(pageId, selectedTheme)
+        setPageInfo((prev) => prev && { ...prev, themeName: selectedTheme })
       }
       if (headerData) {
         await udpateHeader(pageId, headerData)
