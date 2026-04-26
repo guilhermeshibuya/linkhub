@@ -14,5 +14,13 @@ export function resolveBackground(
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }
+    case 'pattern':
+      return {
+        backgroundColor: background.base,
+        backgroundImage: background.pattern,
+        backgroundRepeat: 'repeat',
+      }
+    case 'component':
+      return {}
   }
 }

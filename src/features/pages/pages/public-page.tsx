@@ -10,6 +10,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { themes } from '../types/theme'
 import { resolveBackground } from '../utils/resolve-background'
 import { useTranslation } from 'react-i18next'
+import { backgroundComponents } from '../components/theme-backgrounds'
 
 type Status = 'loading' | 'error' | 'success' | 'not-found'
 
@@ -64,6 +65,10 @@ export function PublicPage() {
 
   const theme = themes[publicPage?.themeName || 'deep_slate']
   const bgStyle = resolveBackground(theme.background)
+  const BgComponent =
+    theme.background.type === 'component'
+      ? backgroundComponents[theme.background.value]
+      : null
 
   const cssVars = {
     '--text-primary': theme.textPrimary,
@@ -81,15 +86,24 @@ export function PublicPage() {
         ...cssVars,
       }}
     >
-      <div
-        className="fixed inset-0"
-        style={{
-          ...bgStyle,
-          filter: 'opacity(0.7)',
-        }}
-      />
+      {!BgComponent && (
+        <div
+          className="fixed inset-0"
+          style={{
+            ...bgStyle,
+            filter: 'opacity(0.7)',
+          }}
+        />
+      )}
+
+      {BgComponent && (
+        <div className="fixed inset-0 -z-10">
+          <BgComponent />
+        </div>
+      )}
+
       <main
-        className="my-8 relative min-h-dvh rounded-4xl px-4 py-8 mx-auto max-w-md shadow-[0_0_30px_15px_rgba(0,0,0,0.15)]"
+        className="xs:my-8 xs:rounded-4xl relative min-h-dvh px-4 py-8 mx-auto max-w-md shadow-[0_0_30px_15px_rgba(0,0,0,0.15)]"
         style={{ ...bgStyle }}
       >
         <div className="flex flex-col items-center gap-3 mb-8">

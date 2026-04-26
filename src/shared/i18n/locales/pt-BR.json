@@ -2,6 +2,9 @@
   "close": "Fechar",
   "confirm": "Confirmar",
   "cancel": "Cancelar",
+  "save": "Salvar",
+  "saving": "Salvando...",
+  "change": "Alterar",
   "auth": {
     "welcome": "Bem-vindo",
     "welcomeBack": "Bem-vindo de volta",
@@ -88,6 +91,27 @@
       "deleteLinkDescription": "Tem certeza que deseja excluir o link <bold>{{title}}</bold>? Esta ação não pode ser desfeita",
       "deleteLinkSuccess": "Link excluído com sucesso",
       "deleteLinkError": "Não foi possível excluir o link, por favor tente novamente"
+    },
+    "design": {
+      "sectionTitle": "Design da página",
+      "sectionDescription": "Personalize o tema e a identidade visual da sua página pública",
+      "saveSuccess": "Alterações salvas com sucesso",
+      "saveError": "Não foi possível salvar as alterações, por favor tente novamente",
+      "tabs": {
+        "theme": "Tema",
+        "header": {
+          "profilePicture": "Foto de perfil",
+          "cropImage": "Cortar imagem",
+          "title": "Cabeçalho",
+          "titleInputLabel": "Título",
+          "titleInputPlaceholder": "Ex: Fulano de Tal",
+          "descriptionInputLabel": "Descrição",
+          "descriptionInputPlaceholder": "Uma breve descrição sobre você (ex: designer, amante de café ☕)",
+          "pictureSizeError": "A imagem deve ser menor que 2MB",
+          "pictureUploadSuccess": "Foto de perfil atualizada com sucesso",
+          "pictureUploadError": "Não foi possível atualizar a foto de perfil, por favor tente novamente"
+        }
+      }
     }
   },
   "validation": {
