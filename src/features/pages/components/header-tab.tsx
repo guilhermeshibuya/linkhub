@@ -4,7 +4,7 @@ import {
   InputGroupInput,
   InputGroupTextarea,
 } from '@/components/ui/input-group'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { headerSchema, type HeaderData } from '../schemas/header-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -42,7 +42,7 @@ export function HeaderTab() {
 
   const {
     register,
-    watch,
+    control,
     reset,
     trigger,
     formState: { errors },
@@ -54,7 +54,9 @@ export function HeaderTab() {
     },
   })
 
-  const descriptionValue = watch('description') || ''
+  const formValues = useWatch({ control })
+
+  const descriptionValue = formValues.description || ''
   const descriptionLength = descriptionValue.length
 
   const handleProfilePictureClick = () => {
@@ -107,13 +109,10 @@ export function HeaderTab() {
   }, [pageInfo, reset])
 
   useEffect(() => {
-    const subscription = watch((value) => {
-      trigger().then((isValid) => {
-        if (isValid) setHeaderData(value as HeaderData)
-      })
+    trigger().then((isValid) => {
+      if (isValid) setHeaderData(formValues as HeaderData)
     })
-    return () => subscription.unsubscribe()
-  }, [watch, trigger, setHeaderData])
+  }, [formValues, trigger, setHeaderData])
 
   return (
     <section>
