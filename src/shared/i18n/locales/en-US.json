@@ -5,6 +5,7 @@
   "save": "Save",
   "saving": "Saving...",
   "change": "Change",
+  "logout": "Logout",
   "auth": {
     "welcome": "Welcome",
     "welcomeBack": "Welcome Back",

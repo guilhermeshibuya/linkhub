@@ -1,8 +1,14 @@
 import { LogoSmall } from '@/components/logo-small'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/hooks/use-auth'
 import { routes } from '@/routes/routes-paths'
-import { Link2, Menu, Palette, Settings, X } from 'lucide-react'
+import { Link2, LogOut, Menu, Palette, Settings, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Outlet } from 'react-router'
@@ -55,8 +61,9 @@ const DashboardLink = ({
 }
 
 export function DashboardLayout() {
-  const { profile } = useAuth()
+  const { profile, signout } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const observer = new ResizeObserver(() => {
@@ -82,12 +89,27 @@ export function DashboardLayout() {
             ))}
           </ul>
           <div className="hidden lg:block">
-            <img
-              src={profile?.profilePictureUrl || '/default-avatar.png'}
-              alt={`${profile?.username} avatar`}
-              referrerPolicy="no-referrer"
-              className="size-9 rounded-full object-cover"
-            />
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <img
+                    src={profile?.profilePictureUrl || '/default-avatar.png'}
+                    alt={`${profile?.username} avatar`}
+                    referrerPolicy="no-referrer"
+                    className="cursor-pointer size-9 rounded-full object-cover"
+                  />
+                }
+              />
+              <DropdownMenuContent className="rounded">
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={signout}
+                  className="rounded"
+                >
+                  <LogOut /> {t('logout')}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
           <Button
@@ -147,6 +169,14 @@ export function DashboardLayout() {
                 </li>
               ))}
             </ul>
+
+            <Button
+              onClick={signout}
+              variant="destructive"
+              className="mt-auto mb-4 mx-4"
+            >
+              <LogOut /> {t('logout')}
+            </Button>
           </div>
         </nav>
       </header>
