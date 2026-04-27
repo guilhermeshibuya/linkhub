@@ -4,11 +4,17 @@ import { SigninForm } from '../components/signin-form'
 import { Button } from '@/components/ui/button'
 import { GoogleIcon } from '../components/google-icon'
 import { handleGoogleLogin } from '../data-access/google-login'
-import { Link } from 'react-router'
+import { Link, Navigate } from 'react-router'
 import { routes } from '@/routes/routes-paths'
+import { useAuth } from '@/hooks/use-auth'
+import { Spinner } from '@/components/ui/spinner'
 
 export function SigninPage() {
+  const { user, loading } = useAuth()
   const { t } = useTranslation()
+
+  if (loading) return <Spinner />
+  if (user) return <Navigate to={`${routes.admin}/${routes.links}`} />
 
   return (
     <AuthLayout>
