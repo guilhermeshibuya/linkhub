@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Spinner } from '@/components/ui/spinner'
 import { signinWithPassword } from '../data-access/signin-password'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 import { routes } from '@/routes/routes-paths'
 
 const fields: {
@@ -41,7 +41,6 @@ const fields: {
 
 export function SigninForm() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const [globalError, setGlobalError] = useState<string>('')
 
   const {
@@ -60,7 +59,6 @@ export function SigninForm() {
       return
     }
     setGlobalError('')
-    navigate(routes.links)
   }
 
   return (
