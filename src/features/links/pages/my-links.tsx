@@ -17,10 +17,12 @@ import { AddLinkDialog } from '../components/add-link-dialog'
 import { Button } from '@/components/ui/button'
 import { DeleteLinkDialog } from '../components/delete-link-dialog'
 import { deleteLink } from '../data-access/delete-link'
+import { useUserData } from '@/hooks/use-user-data'
 
 export function MyLinksPage() {
   const { t } = useTranslation()
-  const { pageId } = useAuth()
+  const { pageId } = useUserData()
+
   const [editingLink, setEditingLink] = useState<Link | null>(null)
   const [deletingLink, setDeletingLink] = useState<Link | null>(null)
   const [links, setLinks] = useState<Link[]>([])
