@@ -1,37 +1,21 @@
 import { supabase } from '@/services/supabse'
 import type { PageInfo } from '../types/public-page'
-import type { PostgrestError } from '@supabase/supabase-js'
-import type { Theme } from '../types/theme'
 
-type PageInfoResponse = {
-  id: string
-  title: string
-  description: string
-  themeName: Theme
-  profiles: { profilePictureUrl: string }
-}
-
-export async function getPageInfo(pageId: string) {
-  const { data, error } = (await supabase
+export async function getPageInfo(pageId: string): Promise<PageInfo> {
+  const { data, error } = await supabase
     .from('pages')
     .select(
       `
         id, 
         title, 
         description, 
-        themeName:theme_name, 
-        profiles!inner(profilePictureUrl:profile_picture_url)
+        themeName:theme_name
       `,
     )
     .eq('id', pageId)
-    .single()) as {
-    data: PageInfoResponse | null
-    error: PostgrestError | null
-  }
+    .maybeSingle()
 
-  if (error) {
-    throw new Error('Failed to fetch page info')
-  }
+  if (error) throw error
 
   if (!data) {
     throw new Error('Page not found')
@@ -42,7 +26,7 @@ export async function getPageInfo(pageId: string) {
     title: data.title,
     description: data.description,
     themeName: data.themeName,
-    profilePictureUrl: data.profiles?.profilePictureUrl || '',
   }
+
   return pageInfo
 }
