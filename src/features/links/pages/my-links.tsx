@@ -1,23 +1,18 @@
 import { LinkCard } from '@/features/links/components/link-card'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { move } from '@dnd-kit/helpers'
 import { DragDropProvider, type DragEndEvent } from '@dnd-kit/react'
 import { useTranslation } from 'react-i18next'
-import { useAuth } from '@/hooks/use-auth'
-import { addLink } from '../data-access/add-link'
-import { getMyLinks } from '../data-access/get-my-links'
 import type { Link } from '../types/link'
 import { type CreateLinkSchema } from '../schemas/create-link-schema'
-import { updateLink } from '../data-access/update-link'
 import { toast } from 'sonner'
-import { updateLinkPositions } from '../data-access/update-link-positions'
 import { type EditLinkSchema } from '../schemas/edit-link-schema'
 import { EditLinkDialog } from '../components/edit-link-dialog'
 import { AddLinkDialog } from '../components/add-link-dialog'
 import { Button } from '@/components/ui/button'
 import { DeleteLinkDialog } from '../components/delete-link-dialog'
-import { deleteLink } from '../data-access/delete-link'
 import { useUserData } from '@/hooks/use-user-data'
+import { useLinks } from '../hooks/use-links'
 
 export function MyLinksPage() {
   const { t } = useTranslation()
@@ -25,28 +20,18 @@ export function MyLinksPage() {
 
   const [editingLink, setEditingLink] = useState<Link | null>(null)
   const [deletingLink, setDeletingLink] = useState<Link | null>(null)
-  const [links, setLinks] = useState<Link[]>([])
 
-  useEffect(() => {
-    async function fetchLinks() {
-      if (!pageId) {
-        console.warn('No pageId found in auth context', pageId)
-        return
-      }
-      const { data, error } = await getMyLinks(pageId)
-
-      if (error) {
-        console.error('Error fetching links:', error)
-        return
-      }
-
-      setLinks(data || [])
-    }
-    fetchLinks()
-  }, [pageId])
+  const {
+    links,
+    addLink,
+    editLink,
+    reorderLinks,
+    toggleLinkVisibility,
+    deleteLink,
+    isLoading,
+  } = useLinks(pageId)
 
   const handleDragEnd = async (event: DragEndEvent) => {
-    const previousLinks = links
     const reorderedLinks = move(links, event)
 
     const hasdChanged = reorderedLinks.some(
@@ -55,86 +40,41 @@ export function MyLinksPage() {
 
     if (!hasdChanged) return
 
-    const withUpdatedPositions = reorderedLinks.map((link, index) => ({
-      ...link,
+    const payload = reorderedLinks.map((link, index) => ({
+      id: link.id,
       position: index,
     }))
 
-    setLinks(withUpdatedPositions)
-
-    const { error } = await updateLinkPositions(
-      withUpdatedPositions.map(({ id, position }) => ({ id, position })),
-    )
-
-    if (error) {
-      setLinks(previousLinks)
-      toast.error(t('dashboard.links.updateLinkError'))
-    }
+    reorderLinks(payload)
   }
 
-  const handleToggleVisibility = async (id: string, isVisible: boolean) => {
-    setLinks((prevLinks) =>
-      prevLinks.map((link) => (link.id === id ? { ...link, isVisible } : link)),
-    )
+  const handleToggleVisibility = async (id: string, isVisible: boolean) =>
+    toggleLinkVisibility({ id, isVisible })
 
-    const { error } = await updateLink(id, { isVisible })
-
-    if (error) {
-      setLinks((prevLinks) =>
-        prevLinks.map((link) =>
-          link.id === id ? { ...link, isVisible: !isVisible } : link,
-        ),
-      )
-      toast.error(t('dashboard.links.updateLinkError'))
-    }
-  }
-
-  const onAddLinkSubmit = async (formData: CreateLinkSchema) => {
-    if (!pageId) throw new Error('auth.errors.unknown')
-
-    const { data, error } = await addLink({ ...formData, pageId })
-
-    if (error) throw new Error(t('dashboard.links.addLinkError'))
-
-    setLinks((prevLinks) => [...prevLinks, data![0]])
-    toast.success(t('dashboard.links.addLinkSuccess'))
-  }
+  const onAddLinkSubmit = async (formData: CreateLinkSchema) =>
+    addLink(formData)
 
   const onEditLinkSubmit = async (formData: EditLinkSchema) => {
-    if (!editingLink || !pageId) throw new Error('auth.errors.unknown')
-
-    const previousLinks = links
-
-    setLinks((prev) =>
-      prev.map((link) =>
-        link.id === editingLink.id ? { ...link, ...formData } : link,
-      ),
-    )
-
-    const { error } = await updateLink(editingLink.id, formData)
-
-    if (error) {
-      setLinks(previousLinks)
-      throw new Error(t('dashboard.links.updateLinkError'))
+    if (!editingLink || !pageId) {
+      toast.error('auth.errors.unknown')
+      return
     }
 
-    toast.success(t('dashboard.links.updateLinkSuccess'))
+    editLink({ id: editingLink.id, data: formData })
   }
 
   const onDeleteLinkConfirm = async () => {
-    if (!deletingLink) throw new Error('auth.errors.unknown')
-
-    const previousLinks = links
-    setLinks((prev) => prev.filter((link) => link.id !== deletingLink.id))
-
-    const { error } = await deleteLink(deletingLink.id)
-
-    if (error) {
-      setLinks(previousLinks)
-      throw new Error(t('dashboard.links.deleteLinkError'))
+    if (!deletingLink) {
+      toast.error('auth.errors.unknown')
+      return
     }
 
-    toast.success(t('dashboard.links.deleteLinkSuccess'))
+    deleteLink(deletingLink.id)
+  }
+
+  if (isLoading) {
+    // Skeleton
+    return
   }
 
   return (
