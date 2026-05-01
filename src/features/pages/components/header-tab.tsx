@@ -16,15 +16,19 @@ import { type Area } from 'react-easy-crop'
 import { getCroppedImage } from '@/utils/get-cropped-img'
 import { toast } from 'sonner'
 import { uploadProfilePicture } from '@/features/profiles/data-access/upload-profile-picture'
-import { useAuth } from '@/hooks/use-auth'
 import { getProfilePictureUrl } from '@/features/profiles/data-access/get-profile-picture-url'
 import { updateProfilePicture } from '@/features/profiles/data-access/update-profile-picture'
 import { CropProfilePictureDialog } from '@/features/profiles/components/crop-profile-picture-dialog'
+import { useQueryClient } from '@tanstack/react-query'
+import { useUserData } from '@/hooks/use-user-data'
+import { usePageInfo } from '../hooks/use-page-info'
 
 export function HeaderTab() {
+  const queryClient = useQueryClient()
   const { t } = useTranslation()
-  const { user } = useAuth()
-  const { pageInfo, setHeaderData, setProfilePictureUrl } = useDesignStore()
+  const { user, username, pageId, profile } = useUserData()
+  const { data: pageInfo } = usePageInfo(pageId)
+  const { setHeaderDraft, resetHeaderDraft } = useDesignStore()
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -38,7 +42,6 @@ export function HeaderTab() {
     register,
     control,
     reset,
-    trigger,
     formState: { errors },
   } = useForm<HeaderData>({
     resolver: zodResolver(headerSchema),
@@ -50,8 +53,7 @@ export function HeaderTab() {
 
   const formValues = useWatch({ control })
 
-  const descriptionValue = formValues.description || ''
-  const descriptionLength = descriptionValue.length
+  const descriptionLength = formValues.description?.length ?? 0
 
   const handleProfilePictureClick = () => {
     if (fileInputRef.current) {
@@ -87,16 +89,24 @@ export function HeaderTab() {
   const handleSaveCroppedImage = async () => {
     try {
       if (image && croppedAreaPixels && user) {
-        const cropedImage = await getCroppedImage(image, croppedAreaPixels)
-        await uploadProfilePicture(user?.id, cropedImage)
+        const croppedImage = await getCroppedImage(image, croppedAreaPixels)
+        await uploadProfilePicture(user.id, croppedImage)
         const publicProfilePictureUrl = await getProfilePictureUrl(user.id)
         await updateProfilePicture(user.id, publicProfilePictureUrl)
-        setProfilePictureUrl(publicProfilePictureUrl)
+
+        await Promise.all([
+          await queryClient.invalidateQueries({
+            queryKey: ['profile', user.id],
+          }),
+          await queryClient.invalidateQueries({
+            queryKey: ['public-page', username],
+          }),
+        ])
+
         toast.success(t('dashboard.design.tabs.header.pictureUploadSuccess'))
         setIsCropping(false)
       }
-    } catch (error) {
-      console.error('Error cropping image:', error)
+    } catch {
       toast.error(t('dashboard.design.tabs.header.pictureUploadError'))
     }
   }
@@ -111,10 +121,23 @@ export function HeaderTab() {
   }, [pageInfo, reset])
 
   useEffect(() => {
-    trigger().then((isValid) => {
-      if (isValid) setHeaderData(formValues as HeaderData)
-    })
-  }, [formValues, trigger, setHeaderData])
+    if (!pageInfo) return
+
+    if (
+      formValues.title !== pageInfo?.title ||
+      formValues.description !== pageInfo?.description
+    ) {
+      setHeaderDraft(formValues)
+    } else {
+      resetHeaderDraft()
+    }
+  }, [formValues, pageInfo, setHeaderDraft, resetHeaderDraft])
+
+  useEffect(() => {
+    return () => {
+      if (image) URL.revokeObjectURL(image)
+    }
+  }, [image])
 
   return (
     <section className="flex flex-col gap-8">
@@ -126,7 +149,7 @@ export function HeaderTab() {
           <img
             referrerPolicy="no-referrer"
             className="rounded-full size-20"
-            src={pageInfo?.profilePictureUrl || '/default-avatar.png'}
+            src={profile?.profilePictureUrl || '/default-avatar.png'}
             alt="Avatar"
           />
           <input
@@ -139,7 +162,7 @@ export function HeaderTab() {
           <Button variant="outline" onClick={handleProfilePictureClick}>
             {t('change')}
           </Button>
-          {image && (
+          {image && isCropping && (
             <CropProfilePictureDialog
               isCropping={isCropping}
               setIsCropping={setIsCropping}

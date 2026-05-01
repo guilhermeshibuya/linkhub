@@ -1,36 +1,30 @@
-import type { PageInfo } from '../types/public-page'
 import type { Theme } from '../types/theme'
 import { create } from 'zustand'
 
-interface DesignState {
-  pageInfo: PageInfo | null
-  selectedTheme: Theme | null
-  headerData: { title: string; description?: string } | null
+type HeaderDraft = {
+  title?: string
+  description?: string
+}
 
-  setPageInfo: (
-    data: PageInfo | ((prev: PageInfo | null) => PageInfo | null),
-  ) => void
-  setSelectedTheme: (theme: Theme) => void
-  setHeaderData: (data: { title: string; description?: string }) => void
-  setProfilePictureUrl: (url: string) => void
+interface DesignState {
+  headerDraft: HeaderDraft
+  themeDraft: Theme | null
+
+  setHeaderDraft: (diff: HeaderDraft) => void
+  resetHeaderDraft: () => void
+
+  setThemeDraft: (theme: Theme) => void
+  resetThemeDraft: () => void
 }
 
 export const useDesignStore = create<DesignState>((set) => ({
-  pageInfo: null,
-  selectedTheme: null,
-  headerData: null,
-  profilePictureUrl: null,
+  headerDraft: {},
+  themeDraft: null,
 
-  setPageInfo: (data) =>
-    set((state) => ({
-      pageInfo: typeof data === 'function' ? data(state.pageInfo) : data,
-    })),
-  setSelectedTheme: (theme) => set({ selectedTheme: theme }),
-  setHeaderData: (data) => set({ headerData: data }),
-  setProfilePictureUrl: (url) =>
-    set((state) => ({
-      pageInfo: state.pageInfo
-        ? { ...state.pageInfo, profilePictureUrl: url }
-        : null,
-    })),
+  setHeaderDraft: (diff) =>
+    set((state) => ({ headerDraft: { ...state.headerDraft, ...diff } })),
+  resetHeaderDraft: () => set({ headerDraft: {} }),
+
+  setThemeDraft: (theme) => set({ themeDraft: theme }),
+  resetThemeDraft: () => set({ themeDraft: null }),
 }))

@@ -1,7 +1,10 @@
 import { supabase } from '@/services/supabse'
 import type { HeaderData } from '../schemas/header-schema'
 
-export async function udpateHeader(pageId: string, headerData: HeaderData) {
+export async function udpateHeader(
+  pageId: string,
+  headerData: Partial<HeaderData>,
+) {
   const { error } = await supabase
     .from('pages')
     .update({
