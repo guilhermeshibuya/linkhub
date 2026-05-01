@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import { getPublicPageByUsername } from '../data-access/get-public-page'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import type { PublicPage } from '../types/public-page'
 import { PublicLinkCard } from '../components/public-link-card'
 import { incrementLinkClick } from '../data-access/increment-link_click'
@@ -11,45 +11,35 @@ import { themes } from '../types/theme'
 import { resolveBackground } from '../utils/resolve-background'
 import { useTranslation } from 'react-i18next'
 import { backgroundComponents } from '../components/theme-backgrounds'
-
-type Status = 'loading' | 'error' | 'success' | 'not-found'
+import { useQuery } from '@tanstack/react-query'
 
 export function PublicPage() {
   const { t } = useTranslation()
   const { username } = useParams()
-  const [publicPage, setPublicPage] = useState<PublicPage | null>(null)
-  const [status, setStatus] = useState<Status>('loading')
+
+  const {
+    data: publicPage,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['public-page', username],
+    queryFn: () => getPublicPageByUsername(username!),
+    enabled: !!username,
+  })
 
   useEffect(() => {
-    async function fetchPublicPage() {
-      if (!username) return
-      try {
-        const page = await getPublicPageByUsername(username)
-        if (!page) {
-          setStatus('not-found')
-          return
-        }
-        setPublicPage(page)
-        setStatus('success')
-      } catch (error) {
-        console.error('Error fetching public page:', error)
-        setStatus('error')
-      }
-    }
-    fetchPublicPage()
-  }, [username])
-
-  useEffect(() => {
-    if (status === 'success' && publicPage?.title) {
-      document.title = `${publicPage.title} | LinkHub`
-    } else if (status === 'loading') {
+    if (isLoading) {
       document.title = t('auth.loading')
+    } else if (publicPage?.title) {
+      document.title = `${publicPage.title} | LinkHub`
+    } else {
+      document.title = 'LinkHub'
     }
 
     return () => {
       document.title = 'LinkHub'
     }
-  }, [publicPage, status, t])
+  }, [isLoading, publicPage?.title, t])
 
   const handleLinkClick = async (linkId: string) => {
     try {
@@ -59,9 +49,9 @@ export function PublicPage() {
     }
   }
 
-  if (status === 'loading') return <Spinner />
-  if (status === 'error') return <ErrorPage />
-  if (status === 'not-found') return <NotFoundPage />
+  if (isLoading) return <Spinner />
+  if (isError) return <ErrorPage />
+  if (!publicPage) return <NotFoundPage />
 
   const theme = themes[publicPage?.themeName || 'deep_slate']
   const bgStyle = resolveBackground(theme.background)

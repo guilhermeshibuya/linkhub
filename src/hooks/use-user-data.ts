@@ -23,6 +23,7 @@ export function useUserData() {
   return {
     user,
     profile: profileQuery.data ?? null,
+    username: profileQuery.data?.username ?? null,
     pageId: pageQuery.data ?? null,
     loading: profileQuery.isLoading || pageQuery.isLoading,
     error: profileQuery.error || pageQuery.error,

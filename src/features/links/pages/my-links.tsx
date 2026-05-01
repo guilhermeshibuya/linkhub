@@ -16,7 +16,7 @@ import { useLinks } from '../hooks/use-links'
 
 export function MyLinksPage() {
   const { t } = useTranslation()
-  const { pageId } = useUserData()
+  const { pageId, username } = useUserData()
 
   const [editingLink, setEditingLink] = useState<Link | null>(null)
   const [deletingLink, setDeletingLink] = useState<Link | null>(null)
@@ -29,7 +29,7 @@ export function MyLinksPage() {
     toggleLinkVisibility,
     deleteLink,
     isLoading,
-  } = useLinks(pageId)
+  } = useLinks(pageId, username)
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const reorderedLinks = move(links, event)

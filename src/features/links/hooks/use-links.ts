@@ -9,7 +9,7 @@ import { updateLinkPositions } from '../data-access/update-link-positions'
 import { updateLink } from '../data-access/update-link'
 import { deleteLink } from '../data-access/delete-link'
 
-export function useLinks(pageId: string | null) {
+export function useLinks(pageId: string | null, username: string | null) {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
 
@@ -46,6 +46,10 @@ export function useLinks(pageId: string | null) {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['links', pageId] })
+
+      if (username)
+        queryClient.invalidateQueries({ queryKey: ['public-page', username] })
+
       toast.success(t('dashboard.links.addLinkSuccess'))
     },
 
@@ -85,6 +89,9 @@ export function useLinks(pageId: string | null) {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['links', pageId] })
+
+      if (username)
+        queryClient.invalidateQueries({ queryKey: ['public-page', username] })
     },
   })
 
@@ -113,6 +120,9 @@ export function useLinks(pageId: string | null) {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['links', pageId] })
+
+      if (username)
+        queryClient.invalidateQueries({ queryKey: ['public-page', username] })
     },
   })
 
@@ -137,6 +147,9 @@ export function useLinks(pageId: string | null) {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['links', pageId] })
+
+      if (username)
+        queryClient.invalidateQueries({ queryKey: ['public-page', username] })
     },
   })
 
@@ -163,6 +176,9 @@ export function useLinks(pageId: string | null) {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['links', pageId] })
+
+      if (username)
+        queryClient.invalidateQueries({ queryKey: ['public-page', username] })
     },
   })
 
