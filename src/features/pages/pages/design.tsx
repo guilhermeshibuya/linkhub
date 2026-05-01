@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useTranslation } from 'react-i18next'
 import { ThemeTab } from '../components/theme-tab'
-import { useAuth } from '@/hooks/use-auth'
 import { useDesignStore } from '../store/design-store'
 import { updateTheme } from '../data-access/update-theme'
 import { useEffect, useState } from 'react'
@@ -12,9 +11,10 @@ import { udpateHeader } from '../data-access/update-header'
 import { getPageInfo } from '../data-access/get-page-info'
 import { toast } from 'sonner'
 import { useScrollPosition } from '@/hooks/use-scroll-position'
+import { useUserData } from '@/hooks/use-user-data'
 
 export function DesignPage() {
-  const { pageId } = useAuth()
+  const { pageId } = useUserData()
   const { t } = useTranslation()
   const { pageInfo, setPageInfo, selectedTheme, headerData } = useDesignStore()
   const [isSaving, setIsSaving] = useState(false)
