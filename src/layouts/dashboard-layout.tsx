@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/hooks/use-auth'
+import { useUserData } from '@/hooks/use-user-data'
 import { routes } from '@/routes/routes-paths'
 import { Link2, LogOut, Menu, Palette, Settings, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -61,9 +62,11 @@ const DashboardLink = ({
 }
 
 export function DashboardLayout() {
-  const { profile, signout } = useAuth()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { signout } = useAuth()
   const { t } = useTranslation()
+  const { profile } = useUserData()
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const observer = new ResizeObserver(() => {
@@ -92,12 +95,14 @@ export function DashboardLayout() {
             <DropdownMenu>
               <DropdownMenuTrigger
                 render={
-                  <img
-                    src={profile?.profilePictureUrl || '/default-avatar.png'}
-                    alt={`${profile?.username} avatar`}
-                    referrerPolicy="no-referrer"
-                    className="cursor-pointer size-9 rounded-full object-cover"
-                  />
+                  <button>
+                    <img
+                      src={profile?.profilePictureUrl || '/default-avatar.png'}
+                      alt={`${profile?.username} avatar`}
+                      referrerPolicy="no-referrer"
+                      className="cursor-pointer size-9 rounded-full object-cover"
+                    />
+                  </button>
                 }
               />
               <DropdownMenuContent className="rounded">
