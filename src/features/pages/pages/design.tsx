@@ -4,68 +4,68 @@ import { useTranslation } from 'react-i18next'
 import { ThemeTab } from '../components/theme-tab'
 import { useDesignStore } from '../store/design-store'
 import { updateTheme } from '../data-access/update-theme'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Spinner } from '@/components/ui/spinner'
 import { HeaderTab } from '../components/header-tab'
 import { udpateHeader } from '../data-access/update-header'
-import { getPageInfo } from '../data-access/get-page-info'
 import { toast } from 'sonner'
 import { useScrollPosition } from '@/hooks/use-scroll-position'
 import { useUserData } from '@/hooks/use-user-data'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function DesignPage() {
-  const { pageId } = useUserData()
   const { t } = useTranslation()
-  const { pageInfo, setPageInfo, selectedTheme, headerData } = useDesignStore()
+  const { pageId, username } = useUserData()
+  const queryClient = useQueryClient()
+  const { themeDraft, headerDraft, resetThemeDraft, resetHeaderDraft } =
+    useDesignStore()
   const [isSaving, setIsSaving] = useState(false)
   const scrollPosition = useScrollPosition(50)
 
-  const hasUnsavedChanges = () => {
-    if (!pageInfo) return false
-
-    if (selectedTheme && pageInfo.themeName !== selectedTheme) return true
-    if (headerData) {
-      const { title, description } = pageInfo
-      if (headerData.title !== title) return true
-      if (headerData.description !== description) return true
-    }
-    return false
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!pageId) return
-
-      try {
-        const data = await getPageInfo(pageId)
-        setPageInfo(data)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    fetchData()
-  }, [pageId, setPageInfo])
+  const hasUnsavedChanges =
+    Object.keys(headerDraft).length > 0 || themeDraft !== null
 
   const handleSave = async () => {
     if (!pageId) return
 
     try {
       setIsSaving(true)
-      if (selectedTheme) {
-        await updateTheme(pageId, selectedTheme)
-        setPageInfo((prev) => prev && { ...prev, themeName: selectedTheme })
+
+      if (themeDraft) {
+        await updateTheme(pageId, themeDraft)
       }
-      if (headerData) {
-        await udpateHeader(pageId, headerData)
+
+      if (Object.keys(headerDraft).length > 0) {
+        await udpateHeader(pageId, headerDraft)
       }
+      await queryClient.invalidateQueries({ queryKey: ['page-info', pageId] })
+      await queryClient.invalidateQueries({
+        queryKey: ['public-page', username],
+      })
+
+      resetThemeDraft()
+      resetHeaderDraft()
+
       toast.success(t('dashboard.design.saveSuccess'))
-    } catch (error) {
-      console.error('Error saving theme:', error)
+    } catch {
       toast.error(t('dashboard.design.saveError'))
     } finally {
       setIsSaving(false)
     }
   }
+
+  const saveButton = (
+    <Button onClick={handleSave} disabled={isSaving || !hasUnsavedChanges}>
+      {isSaving ? (
+        <>
+          <Spinner />
+          {t('saving')}
+        </>
+      ) : (
+        t('save')
+      )}
+    </Button>
+  )
 
   return (
     <main className="grid min-h-dvh lg:grid-cols-[3fr_2fr] grid-rows-[auto_1fr]">
@@ -74,19 +74,7 @@ export function DesignPage() {
           <h1>{t('dashboard.design.sectionTitle')}</h1>
           <p>{t('dashboard.design.sectionDescription')}</p>
         </div>
-        <Button
-          onClick={handleSave}
-          disabled={isSaving || !hasUnsavedChanges()}
-        >
-          {isSaving ? (
-            <>
-              <Spinner />
-              {t('saving')}
-            </>
-          ) : (
-            t('save')
-          )}
-        </Button>
+        {saveButton}
       </div>
       <div className="row-start-3 lg:row-span-2">{/* Preview */}</div>
       <Tabs
@@ -116,26 +104,13 @@ export function DesignPage() {
           fixed bottom-4 right-4 z-50 lg:hidden
           transition-all duration-300 ease-in-out
           ${
-            scrollPosition > 400 && hasUnsavedChanges()
+            scrollPosition > 400 && hasUnsavedChanges
               ? 'translate-y-0 opacity-100 pointer-events-auto'
               : 'translate-y-16 opacity-0 pointer-events-none'
           }  
         `}
       >
-        <Button
-          onClick={handleSave}
-          disabled={isSaving || !hasUnsavedChanges()}
-          className="shadow-lg"
-        >
-          {isSaving ? (
-            <>
-              <Spinner />
-              {t('saving')}
-            </>
-          ) : (
-            t('save')
-          )}
-        </Button>
+        {saveButton}
       </div>
     </main>
   )

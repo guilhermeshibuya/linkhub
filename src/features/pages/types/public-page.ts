@@ -13,4 +13,7 @@ export type PublicPage = {
   links: PageLink[]
 }
 
-export type PageInfo = Omit<PublicPage, 'links' | 'username'>
+export type PageInfo = Omit<
+  PublicPage,
+  'links' | 'username' | 'profilePictureUrl'
+>
