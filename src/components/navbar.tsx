@@ -74,7 +74,7 @@ export function Navbar() {
     })
     observer.observe(document.body)
     return () => observer.disconnect()
-  }, [])
+  }, [closeDrawer])
 
   return (
     <header className="relative w-full p-4 border-b border-zinc-300 dark:border-zinc-700">
