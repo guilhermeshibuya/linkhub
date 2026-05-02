@@ -7,7 +7,7 @@ import {
   Pencil,
   Trash,
 } from 'lucide-react'
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 
 type LinkCardProps = {
   id: string
@@ -21,7 +21,7 @@ type LinkCardProps = {
   onToggleVisibility: (id: string, isVisible: boolean) => void
 }
 
-export function LinkCard({
+export const LinkCard = React.memo(function LinkCard({
   id,
   index,
   title,
@@ -85,4 +85,4 @@ export function LinkCard({
       </div>
     </li>
   )
-}
+})

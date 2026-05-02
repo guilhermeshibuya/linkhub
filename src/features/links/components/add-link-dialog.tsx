@@ -23,7 +23,7 @@ import {
   type CreateLinkSchema,
 } from '../schemas/create-link-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Spinner } from '@/components/ui/spinner'
 
 const fields: {
@@ -52,7 +52,7 @@ type AddLinkDialogProps = {
   onSave: (data: CreateLinkSchema) => Promise<void>
 }
 
-export function AddLinkDialog({
+export const AddLinkDialog = React.memo(function AddLinkDialog({
   pageId,
   nextPosition,
   onSave,
@@ -200,4 +200,4 @@ export function AddLinkDialog({
       </DialogContent>
     </Dialog>
   )
-}
+})
