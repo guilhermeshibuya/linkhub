@@ -68,14 +68,19 @@ export function MyLinksPage() {
     [addLink],
   )
 
-  const onEditLinkSubmit = async (formData: EditLinkSchema) => {
-    if (!editingLink || !pageId) {
-      toast.error('auth.errors.unknown')
-      return
-    }
+  const onEditLinkSubmit = useCallback(
+    async (formData: EditLinkSchema) => {
+      if (!editingLink || !pageId) {
+        toast.error('auth.errors.unknown')
+        return
+      }
 
-    editLink({ id: editingLink.id, data: formData })
-  }
+      editLink({ id: editingLink.id, data: formData })
+    },
+    [editLink, editingLink, pageId],
+  )
+
+  const handleCloseEditLink = useCallback(() => setEditingLink(null), [])
 
   const onDeleteLinkConfirm = async () => {
     if (!deletingLink) {
@@ -114,7 +119,7 @@ export function MyLinksPage() {
       <EditLinkDialog
         link={editingLink}
         isOpen={!!editingLink}
-        onClose={() => setEditingLink(null)}
+        onClose={handleCloseEditLink}
         onSave={onEditLinkSubmit}
       />
 

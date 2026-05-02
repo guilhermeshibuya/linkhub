@@ -16,7 +16,7 @@ import {
 import { InputGroup, InputGroupInput } from '@/components/ui/input-group'
 import { useTranslation } from 'react-i18next'
 import type { Link } from '../types/link'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import {
@@ -52,7 +52,7 @@ const fields: {
   },
 ]
 
-export function EditLinkDialog({
+export const EditLinkDialog = React.memo(function EditLinkDialog({
   link,
   isOpen,
   onClose,
@@ -158,4 +158,4 @@ export function EditLinkDialog({
       </DialogContent>
     </Dialog>
   )
-}
+})

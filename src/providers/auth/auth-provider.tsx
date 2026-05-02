@@ -20,9 +20,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       const currentUser = session?.user ?? null
 
-      setAuthState({
-        user: currentUser,
-        loading: false,
+      setAuthState((prev) => {
+        if (prev.user?.id === currentUser?.id && prev.loading === false) {
+          return prev
+        }
+        return { user: currentUser, loading: false }
       })
     })
 
