@@ -1,7 +1,6 @@
-import { useAuth } from '@/hooks/use-auth'
 import { useUserData } from '@/hooks/use-user-data'
 import { routes } from '@/routes/routes-paths'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink } from 'react-router'
 import { LogoSmall } from './logo-small'
@@ -14,37 +13,39 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from './ui/button'
 import { useDrawer } from '@/hooks/use-drawer'
+import { useAuth } from '@/hooks/use-auth'
 
 const dashboardLinks = [
   {
     to: `${routes.admin}/${routes.links}`,
-    icon: <Link2 />,
+    icon: Link2,
     label: 'dashboard.header.links',
   },
   {
     to: `${routes.admin}/${routes.design}`,
-    icon: <Palette />,
+    icon: Palette,
     label: 'dashboard.header.design',
   },
   {
     to: `${routes.admin}/${routes.settings}`,
-    icon: <Settings />,
+    icon: Settings,
     label: 'dashboard.header.settings',
   },
 ]
 
-const DashboardLink = ({
+const DashboardLink = React.memo(function DashboardLink({
   to,
   icon,
   label,
   onClick,
 }: {
   to: string
-  icon: React.ReactNode
+  icon: React.ElementType
   label: string
   onClick?: () => void
-}) => {
+}) {
   const { t } = useTranslation()
+  const Icon = icon
 
   return (
     <NavLink
@@ -57,10 +58,10 @@ const DashboardLink = ({
             : 'text-zinc-500 dark:text-zinc-400'
         }`}
     >
-      {icon} {t(label)}
+      <Icon /> {t(label)}
     </NavLink>
   )
-}
+})
 
 export function Navbar() {
   const { signout } = useAuth()
@@ -70,11 +71,11 @@ export function Navbar() {
 
   useEffect(() => {
     const observer = new ResizeObserver(() => {
-      if (window.innerWidth >= 1024) closeDrawer()
+      if (window.innerWidth >= 1024 && isDrawerOpen) closeDrawer()
     })
     observer.observe(document.body)
     return () => observer.disconnect()
-  }, [closeDrawer])
+  }, [closeDrawer, isDrawerOpen])
 
   return (
     <header className="relative w-full p-4 border-b border-zinc-300 dark:border-zinc-700">
@@ -117,7 +118,7 @@ export function Navbar() {
         </div>
 
         <Button
-          onClick={() => openDrawer()}
+          onClick={openDrawer}
           size="icon"
           variant="ghost"
           className="lg:hidden"
@@ -128,7 +129,7 @@ export function Navbar() {
         {isDrawerOpen && (
           <div
             className="fixed inset-0 z-20 bg-black/50 lg:hidden"
-            onClick={() => closeDrawer()}
+            onClick={closeDrawer}
           />
         )}
 
@@ -154,7 +155,7 @@ export function Navbar() {
               <h1 className="font-bold">{profile?.username}</h1>
             </div>
             <Button
-              onClick={() => closeDrawer()}
+              onClick={closeDrawer}
               size="icon"
               variant="ghost"
               className="lg:hidden"
@@ -166,7 +167,7 @@ export function Navbar() {
           <ul className="p-4 flex flex-col gap-8 text-2xl">
             {dashboardLinks.map((link) => (
               <li key={link.to}>
-                <DashboardLink {...link} onClick={() => closeDrawer()} />
+                <DashboardLink {...link} onClick={closeDrawer} />
               </li>
             ))}
           </ul>
