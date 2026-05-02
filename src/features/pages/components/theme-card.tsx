@@ -1,3 +1,4 @@
+import React from 'react'
 import { themeMap, themes, type Theme } from '../types/theme'
 import { resolveBackground } from '../utils/resolve-background'
 import { backgroundComponents } from './theme-backgrounds'
@@ -5,10 +6,14 @@ import { backgroundComponents } from './theme-backgrounds'
 type ThemeCardProps = {
   themeName: Theme
   isSelected: boolean
-  onClick: () => void
+  onClick: (theme: Theme) => void
 }
 
-export function ThemeCard({ themeName, isSelected, onClick }: ThemeCardProps) {
+export const ThemeCard = React.memo(function ThemeCard({
+  themeName,
+  isSelected,
+  onClick,
+}: ThemeCardProps) {
   const theme = themes[themeName]
   const bgStyle = resolveBackground(theme.background)
   const BgComponent =
@@ -26,11 +31,13 @@ export function ThemeCard({ themeName, isSelected, onClick }: ThemeCardProps) {
     '--card-radius': theme.cardRadius,
   } as React.CSSProperties
 
+  const handleClick = () => onClick(themeName)
+
   return (
     <button
       className="flex flex-col gap-2 items-center max-w-xs cursor-pointer"
       style={{ ...cssVars }}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <div
         className={`relative flex flex-col items-center justify-center gap-2 aspect-video w-full rounded overflow-hidden ${isSelected ? 'ring-offset-2 ring-offset-background ring-2 ring-primary' : ''}`}
@@ -64,4 +71,4 @@ export function ThemeCard({ themeName, isSelected, onClick }: ThemeCardProps) {
       <span className="text-base text-center">{themeMap[themeName]}</span>
     </button>
   )
-}
+})

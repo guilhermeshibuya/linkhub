@@ -3,6 +3,7 @@ import { themes, type Theme } from '../types/theme'
 import { useDesignStore } from '../store/design-store'
 import { usePageInfo } from '../hooks/use-page-info'
 import { useUserData } from '@/hooks/use-user-data'
+import { useCallback } from 'react'
 
 const THEMES = Object.keys(themes) as Theme[]
 
@@ -12,6 +13,16 @@ export function ThemeTab() {
   const { themeDraft, setThemeDraft, resetThemeDraft } = useDesignStore()
 
   const activeTheme = themeDraft ?? pageInfo?.themeName
+  const handleOnClick = useCallback(
+    (theme: Theme) => {
+      if (theme === pageInfo?.themeName) {
+        resetThemeDraft()
+      } else {
+        setThemeDraft(theme)
+      }
+    },
+    [pageInfo, resetThemeDraft, setThemeDraft],
+  )
 
   return (
     <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
@@ -20,11 +31,7 @@ export function ThemeTab() {
           key={theme}
           themeName={theme}
           isSelected={activeTheme === theme}
-          onClick={() =>
-            theme === pageInfo?.themeName
-              ? resetThemeDraft()
-              : setThemeDraft(theme)
-          }
+          onClick={handleOnClick}
         />
       ))}
     </section>
