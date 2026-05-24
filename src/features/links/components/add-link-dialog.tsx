@@ -6,7 +6,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import {
   Field,
@@ -50,16 +49,26 @@ type AddLinkDialogProps = {
   pageId: string
   nextPosition: number
   onSave: (data: CreateLinkSchema) => Promise<void>
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 export const AddLinkDialog = React.memo(function AddLinkDialog({
   pageId,
   nextPosition,
   onSave,
+  open,
+  onOpenChange,
 }: AddLinkDialogProps) {
   const { t } = useTranslation()
-  const [isOpen, setIsOpen] = useState(false)
+  const [interalOpen, setInternalOpen] = useState(false)
   const [globalError, setGlobalError] = useState<string | null>(null)
+
+  const isOpen = open !== undefined ? open : interalOpen
+  const setIsOpen = (value: boolean) => {
+    setInternalOpen(value)
+    onOpenChange?.(value)
+  }
 
   const {
     reset,
@@ -101,11 +110,6 @@ export const AddLinkDialog = React.memo(function AddLinkDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger
-        render={
-          <Button className="w-full">{t('dashboard.links.addNewLink')}</Button>
-        }
-      />
       <DialogContent>
         <form
           onSubmit={handleSubmit(onSubmit)}
