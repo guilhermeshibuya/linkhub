@@ -4,14 +4,16 @@ import { useTranslation } from 'react-i18next'
 import { ThemeTab } from '../components/theme-tab'
 import { useDesignStore } from '../store/design-store'
 import { updateTheme } from '../data-access/update-theme'
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Spinner } from '@/components/ui/spinner'
 import { HeaderTab } from '../components/header-tab'
 import { udpateHeader } from '../data-access/update-header'
 import { toast } from 'sonner'
-import { useScrollPosition } from '@/hooks/use-scroll-position'
 import { useUserData } from '@/hooks/use-user-data'
 import { useQueryClient } from '@tanstack/react-query'
+import { useRegisterFab } from '@/hooks/use-register-fab'
+import type { FloatingAction } from '@/store/dashboard-fab-store'
+import { Save } from 'lucide-react'
 
 export function DesignPage() {
   const { t } = useTranslation()
@@ -20,12 +22,11 @@ export function DesignPage() {
   const { themeDraft, headerDraft, resetThemeDraft, resetHeaderDraft } =
     useDesignStore()
   const [isSaving, setIsSaving] = useState(false)
-  const scrollPosition = useScrollPosition(50)
 
   const hasUnsavedChanges =
     Object.keys(headerDraft).length > 0 || themeDraft !== null
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (!pageId) return
 
     try {
@@ -52,7 +53,16 @@ export function DesignPage() {
     } finally {
       setIsSaving(false)
     }
-  }
+  }, [
+    headerDraft,
+    pageId,
+    queryClient,
+    resetHeaderDraft,
+    resetThemeDraft,
+    themeDraft,
+    t,
+    username,
+  ])
 
   const saveButton = (
     <Button onClick={handleSave} disabled={isSaving || !hasUnsavedChanges}>
@@ -66,6 +76,24 @@ export function DesignPage() {
       )}
     </Button>
   )
+
+  const actions: FloatingAction[] = useMemo(
+    () => [
+      {
+        id: 'save-design-fab',
+        onClick: handleSave,
+        order: 3,
+        icon: <Save />,
+        mobileOnly: false,
+        visible: true,
+        disabled: !hasUnsavedChanges,
+        routeScope: 'design',
+      },
+    ],
+    [hasUnsavedChanges, handleSave],
+  )
+
+  useRegisterFab('design', actions)
 
   return (
     <main className="grid min-h-dvh lg:grid-cols-[3fr_2fr] grid-rows-[auto_1fr]">
@@ -99,19 +127,6 @@ export function DesignPage() {
           <HeaderTab />
         </TabsContent>
       </Tabs>
-      <div
-        className={`
-          fixed bottom-4 right-4 z-50 lg:hidden
-          transition-all duration-300 ease-in-out
-          ${
-            scrollPosition > 400 && hasUnsavedChanges
-              ? 'translate-y-0 opacity-100 pointer-events-auto'
-              : 'translate-y-16 opacity-0 pointer-events-none'
-          }  
-        `}
-      >
-        {saveButton}
-      </div>
     </main>
   )
 }

@@ -3,7 +3,7 @@ import { ChevronRight, Link } from 'lucide-react'
 type PublicLinkCardProps = {
   title: string
   url: string
-  onClick: () => void
+  onClick?: () => void
 }
 
 export function PublicLinkCard({ title, url, onClick }: PublicLinkCardProps) {

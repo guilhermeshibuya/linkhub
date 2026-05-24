@@ -18,6 +18,8 @@ export function MyLinksPage() {
   const { t } = useTranslation()
   const { pageId, username } = useUserData()
 
+  const [addLinkOpen, setAddLinkOpen] = useState(false)
+
   const [editingLink, setEditingLink] = useState<Link | null>(null)
   const [deletingLink, setDeletingLink] = useState<Link | null>(null)
 
@@ -104,11 +106,9 @@ export function MyLinksPage() {
           <p>{t('dashboard.links.sectionDescription')}</p>
         </div>
         {pageId ? (
-          <AddLinkDialog
-            pageId={pageId}
-            nextPosition={links.length}
-            onSave={onAddLinkSubmit}
-          />
+          <Button className="w-full" onClick={() => setAddLinkOpen(true)}>
+            {t('dashboard.links.addNewLink')}
+          </Button>
         ) : (
           <Button className="w-full" disabled>
             {t('dashboard.links.addNewLink')}
@@ -146,6 +146,13 @@ export function MyLinksPage() {
           />
         )}
       </div>
+      <AddLinkDialog
+        pageId={pageId}
+        nextPosition={links.length}
+        open={addLinkOpen}
+        onOpenChange={setAddLinkOpen}
+        onSave={onAddLinkSubmit}
+      />
     </main>
   )
 }

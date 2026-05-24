@@ -61,6 +61,7 @@
     }
   },
   "dashboard": {
+    "preview": "Preview",
     "header": {
       "links": "Links",
       "design": "Design",
